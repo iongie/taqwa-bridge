@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { loggerSetting } from "../api.setting";
 import * as crypto from 'crypto';
+import { decrypt, encrypt } from "../services/helper";
 
 
 const apiWelcome = async (req: Request, res: Response) => {
@@ -23,16 +24,10 @@ const apiEncrypt = async (req: Request, res: Response) => {
         const algorithm = 'aes-256-cbc';
         const key = crypto.randomBytes(32);
         const iv = crypto.randomBytes(16);
-        const cipher = crypto.createCipheriv(algorithm, Buffer.from(key), iv);
-        let encrypted = cipher.update(req.body.password);
-        encrypted = Buffer.concat([encrypted, cipher.final()]);
+        const encryptedDataResult = await encrypt(algorithm, req.body.password, key, iv)
         res.status(200).json({
             "status": "success",
-            "data": {
-                "key": key.toString('hex'),
-                "iv": iv.toString('hex'),
-                "encryptedData": encrypted.toString('hex')
-            },
+            "data": encryptedDataResult
         })
     } catch (err: any) {
         loggerSetting.error(`500 - welcome api route - ${err.message} - ${req.originalUrl}`)
@@ -46,12 +41,10 @@ const apiEncrypt = async (req: Request, res: Response) => {
 const apiDecrypt = async (req: Request, res: Response) => {
     try {
         const algorithm = 'aes-256-cbc';
-        const decipher = crypto.createDecipheriv(algorithm, Buffer.from(req.body.key, 'hex'), Buffer.from(req.body.iv, 'hex'));
-        let decrypted = decipher.update(Buffer.from(req.body.encryptedData, 'hex'));
-        decrypted = Buffer.concat([decrypted, decipher.final()]);
+        const decryptedDataResult = await decrypt(algorithm, req.body.encryptedData, req.body.key, req.body.ib)
         res.status(200).json({
             "status": "success",
-            "data": decrypted.toString()
+            "data": decryptedDataResult
         })
     } catch (err: any) {
         loggerSetting.error(`500 - welcome api route - ${err.message} - ${req.originalUrl}`)
