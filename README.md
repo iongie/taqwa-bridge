@@ -21,7 +21,11 @@ npx webpack-cli init
 ## Create File Envinronment
 
 ```bash
-npm i @types/body-parser @types/cors @types/dotenv @types/jsonwebtoken @types/multer @types/nodemailer @types/validator webpack ts-loader terser-webpack-plugin webpack-node-externals --save-dev
+HOST_DB = 'host-database'
+PORT_DB = 'port-database'
+USERNAME_DB =  'username-database'
+PASSWORD_DB =  'password-database'
+DB = 'nama-database'
 ```
 
 
