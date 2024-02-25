@@ -41,7 +41,7 @@ const apiEncrypt = async (req: Request, res: Response) => {
 const apiDecrypt = async (req: Request, res: Response) => {
     try {
         const algorithm = 'aes-256-cbc';
-        const decryptedDataResult = await decrypt(algorithm, req.body.encryptedData, req.body.key, req.body.ib)
+        const decryptedDataResult = await decrypt(algorithm, req.body.encryptedData, req.body.key, req.body.iv)
         res.status(200).json({
             "status": "success",
             "data": decryptedDataResult

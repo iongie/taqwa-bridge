@@ -1,0 +1,10 @@
+{
+  message: '500 - welcome api route - The first argument must be of type string or an instance of Buffer, ArrayBuffer, or Array or an Array-like Object. Received undefined - /api/decrypt',
+  level: 'error',
+  timestamp: '2024-02-25T23:49:56.887Z'
+}
+{
+  message: '500 - welcome api route - Invalid initialization vector - /api/decrypt',
+  level: 'error',
+  timestamp: '2024-02-25T23:50:49.894Z'
+}
